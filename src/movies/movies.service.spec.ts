@@ -43,4 +43,39 @@ describe('MoviesService', () => {
       }
     });
   });
+
+  describe('Тестирование функции remove', () => {
+    it('Фильм удаляется', () => {
+      service.create({
+        title: 'Тестовый фильм',
+        genres: ['Тестовый жанр'],
+        year: 2000,
+      });
+      const allMovies = service.getAll().length;
+      service.remove(1);
+      const afterRemove = service.getAll().length;
+      expect(afterRemove).toBeLessThan(allMovies);
+    });
+
+    it('Должна возвращаться 404ая ошибка', () => {
+      try {
+        service.remove(9999);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+
+  describe('Тестирование функции create', () => {
+    it('Фильм создается', () => {
+      const beforeCreate = service.getAll().length;
+      service.create({
+        title: 'Тестовый фильм',
+        genres: ['Тестовый жанр'],
+        year: 2000,
+      });
+      const afterCreate = service.getAll().length;
+      expect(afterCreate).toBeGreaterThan(beforeCreate);
+    });
+  });
 });
