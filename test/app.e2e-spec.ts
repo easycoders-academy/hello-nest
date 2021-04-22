@@ -19,6 +19,23 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect('Добро пожаловать в API базы фильмов');
+  });
+
+  describe('/movies', () => {
+    it('GET', () => {
+      return request(app.getHttpServer()).get('/movies').expect(200).expect([]);
+    });
+
+    it('POST', () => {
+      return request(app.getHttpServer())
+        .post('/movies')
+        .send({
+          title: 'Карты, деньги, два ствола',
+          year: 1998,
+          genres: ['криминал', 'боевик', 'комедия'],
+        })
+        .expect(201);
+    });
   });
 });
